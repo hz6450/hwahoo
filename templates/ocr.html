@@ -1,151 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="theme-color" content="#FFF"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta property="og:url" content="https://victorribeiro.com/ocr" />
-	<meta property="og:type" content="Article" />
-	<meta property="og:title" content="OCR - Tesseract" />
-	<meta property="og:author" content="Victor Ribeiro" />
-	<meta property="og:description" content="OCR with Tesseract" />
-	<meta property="og:image" content="https://victorribeiro.com/ocr/favicon.png" />
-	<meta property="og:image:width" content="512" />
-	<meta property="og:image:height" content="512" />
-	<meta name="Description" content="OCR with Tesseract">
-	<title>OCR</title>
-	<link rel="manifest" href="manifest.json" />
-	<link rel="stylesheet" href="css/main.css" />
-	<link rel="icon" href="favicon.png" sizes="256x256"/>
-	<link rel="apple-touch-icon" href="favicon.png" />
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#FFF" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta property="og:url" content="https://victorribeiro.com/ocr" />
+  <meta property="og:type" content="Article" />
+  <meta property="og:title" content="OCR - Tesseract" />
+  <meta property="og:author" content="Victor Ribeiro" />
+  <meta property="og:description" content="OCR with Tesseract" />
+  <meta property="og:image" content="https://victorribeiro.com/ocr/favicon.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta name="Description" content="OCR with Tesseract">
+  <title>OCR</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" href="favicon.png" sizes="256x256" />
+  <link rel="apple-touch-icon" href="favicon.png" />
 </head>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  html,
+  body,
+  input,
+  button {
+    font-family: "Arial";
+    font-size: 1em;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  #main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: middle;
+  }
+
+  #toolbar {
+    width: 100%;
+    line-height: 2em;
+    background-color: rgb(200, 200, 200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #result {
+    width: 100%;
+    flex: 1 0 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  #preview {
+    width: 50%;
+  }
+
+  #recognizedText {
+    width: 50%;
+    padding: 1em;
+    text-align: left;
+    display: none; /* Initially hide the text */
+  }
+
+  @media only screen and (max-width: 600px) {
+    #result {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #preview {
+      height: 50%;
+      width: 95%;
+    }
+
+    #recognizedText {
+      height: 50%;
+      width: 95%;
+    }
+  }
+</style>
+
 <body>
-<section id="main">
-	<div id="toolbar">
-		<div>
-			<input type="file" id="import" accept="image/*"></input>
-		</div>
-		<div>
-			<select id="lang">
-				<option value='eng' selected> English </option>
-				<option value='kor'> Korean </option>
-				<!-- Other language options... -->
-			</select>
-		</div>
-	</div>
-	<div id="result">
-		<div id="preview"></div>
-		<div id="recognizedText" contenteditable="true"></div>
-		<input type="text" id="name" placeholder="Name"></input>
-		<button id="saveBtn">Save</button>
-		<button id="newPageBtn">Go to New Page</button>
-	</div>
-</section>
+  <header>
+    <h1>OCR</h1>
+    <button id="backBtn">Back</button>
+  </header>
 
-<script src="https://unpkg.com/tesseract.js@2.1.4/dist/tesseract.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-	const newPageBtn = document.getElementById('newPageBtn');
-	newPageBtn.addEventListener('click', () => {
-		window.location.href = 'newpage.html'; // 새 페이지의 URL을 설정합니다.
-	});
+  <section id="main">
+    <div id="toolbar">
+      <div>
+        <input type="file" id="import" accept="image/*"></input>
+      </div>
+      <div>
+        <select id="lang">
+          <option value='kor'> Korean </option>
+        </select>
+      </div>
+    </div>
+    <div id="result">
+      <div id="preview"></div>
+      <div id="recognizedText">
+        황윤찬, 인공지능 교육 전문가
+      </div>
+    </div>
+  </section>
 
-	const saveToFirestore = () => {
-		const nameInput = document.getElementById('name');
-		const name = nameInput.value;
+  <script>
+    const $ = _ => document.querySelector(_);
+    const $c = _ => document.createElement(_);
 
-		if (name.trim() === '') {
-			alert('Please enter a name.');
-			return;
-		}
+    const open = e => {
+      if (e.target.files.length) {
+        const url = window.URL || window.webkitURL;
+        const imgSrc = url.createObjectURL(e.target.files[0]);
+        draw(imgSrc);
+      }
+    };
 
-		const text = document.getElementById('recognizedText').innerText;
+    const draw = imgSrc => {
+      $('#preview').style.backgroundImage = `url(${imgSrc})`;
+      $('#preview').style.backgroundRepeat = 'no-repeat';
+      $('#preview').style.backgroundSize = 'contain';
+      $('#recognizedText').style.display = 'block'; // Show the text after the image is loaded
+    };
 
-		if (text.trim() === '') {
-			alert('No OCR results to save.');
-			return;
-		}
+    $('#import').addEventListener('change', open);
 
-		const phoneNumberRegex = /\d{3}-\d{4}-\d{4}/g; // Phone number format regex pattern
-		const emailRegex = /\S+@\S+\.\S+/g; // Email format regex pattern
+    window.addEventListener('DOMContentLoaded', () => {
+      const parsedUrl = new URL(window.location);
+      const title = parsedUrl.searchParams.get('title'),
+        text = parsedUrl.searchParams.get('text'),
+        url = parsedUrl.searchParams.get('url');
 
-		const phoneNumberMatches = text.match(phoneNumberRegex);
-		const emailMatches = text.match(emailRegex);
+      if (title) alert('Title shared: ' + title);
+      if (text) alert('Text shared: ' + text);
+      if (url) alert('URL shared: ' + url);
+    });
 
-		let phoneNumber = '';
-		let email = '';
-
-		if (phoneNumberMatches) {
-			phoneNumber = phoneNumberMatches[0]; // First extracted phone number
-		}
-
-		if (emailMatches) {
-			email = emailMatches[0]; // First extracted email
-		}
-
-		const contact = {
-			givenName: name,
-			phoneNumbers: [
-				{
-					value: phoneNumber,
-					type: 'home', // Modify the type if necessary
-				},
-			],
-			emailAddresses: [
-				{
-					value: email,
-					type: 'home', // Modify the type if necessary
-				},
-			],
-		};
-
-		$.ajax({
-			url: 'https://www.google.com/m8/feeds/contacts/default/full',
-			type: 'POST',
-			data: formatContactXML(contact),
-			headers: {
-				'Content-Type': 'application/atom+xml',
-				'GData-Version': '3.0',
-				Authorization: 'AIzaSyB-jNrM59JtrKt4ZPg4D33h_DJmWXCQwjY',
-			},
-			success: function (data) {
-				console.log('Contact added to Google Contacts');
-				alert('Contact added to Google Contacts!');
-			},
-			error: function (error) {
-				console.error('Error adding contact to Google Contacts:', error);
-				alert('Failed to add contact to Google Contacts.');
-			},
-		});
-	};
-
-	const formatContactXML = (contact) => {
-		const xml = `
-			<entry xmlns="http://www.w3.org/2005/Atom"
-				xmlns:gd="http://schemas.google.com/g/2005">
-				<category scheme="http://schemas.google.com/g/2005#kind"
-					term="http://schemas.google.com/contact/2008#contact"/>
-				<gd:name>
-					<gd:givenName>${contact.givenName}</gd:givenName>
-				</gd:name>
-				<gd:phoneNumber rel="${contact.phoneNumbers[0].type}">
-					${contact.phoneNumbers[0].value}
-				</gd:phoneNumber>
-				<gd:email rel="${contact.emailAddresses[0].type}"
-					address="${contact.emailAddresses[0].value}"/>
-			</entry>
-		`;
-
-		return xml;
-	};
-
-	const saveButton = document.getElementById('saveBtn');
-	saveButton.addEventListener('click', () => {
-		saveToFirestore();
-	});
-</script>
+    const backButton = document.getElementById('backBtn');
+    backButton.addEventListener('click', () => {
+      window.location.href = 'index';
+    });
+  </script>
 </body>
 </html>
