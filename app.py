@@ -33,6 +33,7 @@ def face():
 
 
 
+
 @app.route('/face', methods=['POST'])
 def process_age_prediction():
     if 'image' in request.files:

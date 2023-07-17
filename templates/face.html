@@ -9,7 +9,7 @@
             $('#capture-btn').click(function() {
                 // Flask 서버로 POST 요청 전송
                 $.ajax({
-                    url: '/',
+                    url: '/face',
                     type: 'POST',
                     data: { capture: true },
                     success: function(response) {
