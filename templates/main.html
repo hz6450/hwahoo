@@ -10,10 +10,52 @@
     <link href="/static/css/starter-template.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>HwaHoo</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
+    <style>
+        .slider {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .slider-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>HawHoo</h1>
+    <div class="slider">
+        <div class="slider-inner">
+            <div class="slide">슬라이드 1</div>
+            <div class="slide">슬라이드 2</div>
+            <div class="slide">슬라이드 3</div>
+            <div class="slide">슬라이드 4</div>
+            <div class="slide">슬라이드 5</div>
+        </div>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        // 자동 슬라이드 기능 추가
+        $(document).ready(function() {
+            $('.slider-inner').slick({
+                autoplay: true,
+                autoplaySpeed: 2000, // 2초마다 슬라이드 변경
+                dots: true,
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            });
+        });
+    </script>
 
 
 
