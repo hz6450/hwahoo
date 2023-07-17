@@ -53,7 +53,16 @@
         }
         .slide p {
         white-space: pre-line;
-    }
+        }
+
+        body {
+        min-height: 100vh;
+        background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+        background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+        background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+        background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+        background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+        }
     </style>
 </head>
 <body>
@@ -62,10 +71,10 @@
             <img class="logo" src="/static/images/main_logo.png" alt="Logo" style="width:150px;height: 100px;">
         </a>
     </div>
-    <div class="slider">
+    <div class="slider" style="background-color: white; border-radius: 12px;">
         <div class="slider-inner">
             {% for post in posts[:2] %}
-            <div class="slide">
+            <div class="slide" onclick="goToPost('{{ post.id }}')">
                 <div class="row">
                     <div class="col-md-6">
                         {% if post.image %}
@@ -80,7 +89,7 @@
             </div>
             {% endfor %}
         </div>
-        <div class="custom-dots">
+        <div class="custom-dots" style="margin: 8px;">
             {% for i in range(posts[:2]|length) %}
             {% if loop.index0 < 2 %}
             <button class="dot-button" data-slide-index="{{ loop.index0 }}"></button>
@@ -95,16 +104,18 @@
             <h2>최신 글</h2>
             <div class="posts">
                 {% for post in posts %}
-                <div class="card mb-3">
+                <div class="card mb-3" onclick="goToPost('{{ post.id }}')">
                     <div class="row g-0">
-                        <div class="col-md-4">
+                        <div class="col-md-4" >
                             {% if post.image %}
-                            <img src="{{ post.image }}" class="img-fluid" alt="{{ post.title }}">
+                                <img src="{{ post.image }}" class="img-fluid">
                             {% endif %}
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h3 class="card-title">{{ post.title }}</h3>
+                                <h3 class="card-title">
+                                    {{ post.title }}
+                                </h3>
                                 <p class="card-text">{{ post.content }}</p>
                             </div>
                         </div>
@@ -118,6 +129,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
+        function goToPost(postId) {
+        window.location.href = "/post/" + postId;
+        }
+
         $(document).ready(function() {
             var slider = $('.slider-inner');
             var dots = $('.custom-dots button');

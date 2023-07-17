@@ -72,16 +72,20 @@ def index():
     return render_template('index.html')
 
 posts = [
-    {"title": "3D 모델링", "content": "3D 모델링 만들어 주실 분 구합니다.\n간단한 모양입니다.", "image": "/static/images/image1.jpg"},
-    {"title": "웹 페이지 개발", "content": "기능은 다 만들었는데 이 기능과 사이트 분위기에 맞는\n디자인으로 만들어 주실 분 구합니다.", "image": "/static/images/image2.jpg"},
-    {"title": "영어 과외", "content": "토익 800점 이상 선생님을 원합니다.\n기간은 상담을 통해 정하고 싶습니다.", "image": "/static/images/image3.jpg"},
-    {"title": "영어 논문 작성", "content": "제가 한글로 작성한 논문을 영어로 변경해 주실 분!!\n페이는 상담으로 얘기해보고 싶습니다.", "image": "/static/images/image4.jpg"},
-    {"title": "요리 교실", "content": "주말마다 취미로 요리를 배우고 싶습니다.\n현재 3명 정도 같이 하기로 했습니다.", "image": "/static/images/image5.jpg"}
+    {"id": 1, "title": "3D 모델링", "content": "3D 모델링 만들어 주실 분 구합니다.\n간단한 모양입니다.", "image": "/static/images/image1.jpg"},
+    {"id": 2, "title": "웹 페이지 개발", "content": "기능은 다 만들었는데 이 기능과 사이트 분위기에 맞는\n디자인으로 만들어 주실 분 구합니다.", "image": "/static/images/image2.jpg"},
+    {"id": 3, "title": "영어 과외", "content": "토익 800점 이상 선생님을 원합니다.\n기간은 상담을 통해 정하고 싶습니다.", "image": "/static/images/image3.jpg"},
+    {"id": 4, "title": "영어 논문 작성", "content": "제가 한글로 작성한 논문을 영어로 변경해 주실 분!!\n페이는 상담으로 얘기해보고 싶습니다.", "image": "/static/images/image4.jpg"},
+    {"id": 5, "title": "요리 교실", "content": "주말마다 취미로 요리를 배우고 싶습니다.\n현재 3명 정도 같이 하기로 했습니다.", "image": "/static/images/image5.jpg"}
 ]
 
 @app.route('/main')
 def main():
     return render_template('main.html',posts=posts)
+
+@app.route('/post', methods=['post.id'])
+def post():
+    return render_template('post.html')
 
 
 if __name__ == '__main__':
