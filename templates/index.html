@@ -81,8 +81,7 @@
             </form>
             <p>카메라를 통해 사진을 찍거나 파일을 올려보세요!</p>
             <div>
-                <img class="icon" src="static\images\camera_icon.png" alt="Camera Icon">
-                <img class="icon" src="static\images\file_icon.png" alt="File Icon">
+                <button class="submit-btn" onclick="face()">얼굴 등록</button>
             </div>
             <div>
                 <button class="submit-btn" onclick="registerBusinessCard()">명함 등록</button>
@@ -96,7 +95,10 @@
         }
     
         function createAccount() {
-            // 계정 생성 기능 구현
+            window.location.href = 'main';
+        }
+        function face() {
+            window.location.href = 'face';
         }
     </script>
     <script src="/static/js/jquery.min.js"></script>
