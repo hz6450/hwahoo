@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<html lang="kr"></html>
-</html>
+<html lang="kr">
 <head>
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +14,7 @@
             width: 80%;
             margin: 0 auto;
             overflow: hidden;
+            position: relative;
         }
 
         .slider-inner {
@@ -26,6 +25,31 @@
         .slide {
             flex: 0 0 100%;
             padding: 20px;
+        }
+
+        .custom-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .custom-dots button {
+            margin: 0 5px;
+            padding: 0;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .custom-dots button.active {
+            background-color: #000;
+        }
+
+        .slick-prev,
+        .slick-next {
+            display: none !important;
         }
     </style>
 </head>
@@ -39,27 +63,44 @@
             <div class="slide">슬라이드 4</div>
             <div class="slide">슬라이드 5</div>
         </div>
+        <div class="custom-dots">
+            <button class="dot-button" data-slide-index="0"></button>
+            <button class="dot-button" data-slide-index="1"></button>
+            <button class="dot-button" data-slide-index="2"></button>
+            <button class="dot-button" data-slide-index="3"></button>
+            <button class="dot-button" data-slide-index="4"></button>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
-        // 자동 슬라이드 기능 추가
         $(document).ready(function() {
-            $('.slider-inner').slick({
+            var slider = $('.slider-inner');
+            var dots = $('.custom-dots button');
+
+            slider.slick({
                 autoplay: true,
-                autoplaySpeed: 2000, // 2초마다 슬라이드 변경
-                dots: true,
+                autoplaySpeed: 2000,
+                dots: false,
                 infinite: true,
                 slidesToShow: 1,
-                slidesToScroll: 1
+                slidesToScroll: 1,
+                draggable: false,
+                swipe: false
+            });
+
+            dots.click(function() {
+                var index = $(this).data('slide-index');
+                slider.slick('slickGoTo', index);
+            });
+
+            slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+                dots.removeClass('active');
+                dots.eq(nextSlide).addClass('active');
             });
         });
     </script>
-
-
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -67,3 +108,4 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 </body>
+</html>
