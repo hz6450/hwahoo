@@ -74,7 +74,6 @@
     flex-wrap: wrap;
     margin-bottom: 20px;
   }
-  
 
   /* 결과 영역 스타일 */
   #result {
@@ -92,8 +91,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     margin-right: 10px;
+    display: none;
   }
-  
 
   /* 인식된 텍스트 영역 스타일 */
   #recognizedText {
@@ -134,8 +133,12 @@
       </div>
     </div>
     <div id="result">
-      <div id="preview"></div>
-      <div id="recognizedText"></div>
+      <div class="card" style="width: 18rem;">
+        <img id="preview" class="card-img-top" alt="Preview">
+        <div class="card-body">
+          <p id="recognizedText" class="card-text"></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -148,13 +151,24 @@
         const url = window.URL || window.webkitURL;
         const imgSrc = url.createObjectURL(e.target.files[0]);
         draw(imgSrc);
+      } else {
+        hidePreview();
       }
     };
 
     const draw = imgSrc => {
-      $('#preview').style.backgroundImage = `url(${imgSrc})`;
+      $('#preview').src = imgSrc;
+      showPreview();
       $('#recognizedText').style.display = 'block'; // Show the text after the image is loaded
       $('#recognizedText').textContent = '황윤찬, 인공지능 교육 전문가'; // 예시 텍스트, 필요에 따라 수정
+    };
+
+    const hidePreview = () => {
+      $('#preview').style.display = 'none';
+    };
+
+    const showPreview = () => {
+      $('#preview').style.display = 'block';
     };
 
     $('#import').addEventListener('change', open);
