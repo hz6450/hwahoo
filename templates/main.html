@@ -25,7 +25,6 @@
 
         .slide {
             flex: 0 0 100%;
-            padding: 20px;
         }
 
         .custom-dots {
@@ -57,17 +56,20 @@
         }
 
         .logo-container {
-            align-items: center;
-            text-align: center;
-        }
-
-        .logo {
-            width: 150px;
-            height: 100px;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
         }
 
         .btn-container {
-            float: right;
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .logo {
+            width: 250px;
+            height: 80px;
         }
 
         .btn-container .btn {
@@ -82,6 +84,24 @@
             background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
             background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
         }
+
+        .category {
+        display: flex;
+        flex-direction: column;
+        align-items: center;         
+        }
+
+        .top-row {
+        display: flex;
+        justify-content: center;
+        }
+
+        .bottom-row {
+        display: flex;
+        justify-content: center;
+        }
+        
+
     </style>
 </head>
 <body>
@@ -98,10 +118,10 @@
         <div class="slider-inner">
             {% for post in posts[:2] %}
             <div class="slide" onclick="goToPost('{{ post.id }}')">
-                <div class="row">
+                <div class="row" style="text-align: center;">
                     <div class="col-md-6">
                         {% if post.image %}
-                        <img src="{{ post.image }}" style="max-width: 100%;">
+                        <img src="{{ post.image }}" style="width: 150x; height: 150px;">
                         {% endif %}
                     </div>
                     <div class="col-md-6">
@@ -123,32 +143,47 @@
 
 
     <div class="container">
-        <div class="col-md-6">
-            <h2>최신 글</h2>
-            <div class="posts">
-                {% for post in posts %}
-                <div class="card mb-3" onclick="goToPost('{{ post.id }}')">
-                    <div class="row g-0">
-                        <div class="col-md-4" >
-                            {% if post.image %}
-                                <img src="{{ post.image }}" class="img-fluid">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    {{ post.title }}
-                                </h3>
-                                <p class="card-text">{{ post.content }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>최신 글</h2>
+                <div class="posts">
+                    {% for post in posts %} 
+                    <div class="card mb-3" onclick="goToPost('{{ post.id }}')">
+                        <div class="row g-0">
+                            <div class="col-md-4" >
+                                {% if post.image %}
+                                <img src="{{ post.image }}" style="width: 200px; height: 200px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h3 class="card-title">
+                                        {{ post.title }}
+                                    </h3>
+                                    <p class="card-text">{{ post.content }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <div class="category">
+                    <h2>카테고리</h2>
+                    <div class="top-row">
+                        <img src="category1.jpg" alt="Image 1">
+                        <img src="category2.jpg" alt="Image 2">
+                        <img src="category3.jpg" alt="Image 3">
+                    </div>
+                    <div class="bottom-row">
+                        <img src="category4.jpg" alt="Image 4">
+                        <img src="category5.jpg" alt="Image 5">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
