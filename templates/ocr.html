@@ -101,6 +101,11 @@
     text-align: left;
     display: none;
   }
+  
+  /* 밑줄 제거 */
+  a {
+    text-decoration: none;
+  }
 
   /* 반응형 스타일링 */
   @media only screen and (max-width: 600px) {
@@ -136,7 +141,8 @@
       <div class="card" style="width: 18rem;">
         <img id="preview" class="card-img-top" alt="Preview">
         <div class="card-body">
-          <p id="recognizedText" class="card-text"></p>
+          <p id="recognizedText" class="card-text">황윤찬<br>인공지능 교육자</p>
+          <a id="resultBtn" href="javascript:void(0);" class="btn btn-secondary" style="color: white">확인</a>
         </div>
       </div>
     </div>
@@ -151,16 +157,26 @@
         const url = window.URL || window.webkitURL;
         const imgSrc = url.createObjectURL(e.target.files[0]);
         draw(imgSrc);
+        showResultButton(); // Show the result button when an image is selected
       } else {
         hidePreview();
       }
     };
+    
+    const showResultButton = () => {
+      const resultButton = document.getElementById('resultBtn');
+      resultButton.style.color = 'black';
+      resultButton.addEventListener('click', () => {
+        window.location.href = 'index'; // 여기가 결과 버튼 페이지 이동하는 곳
+      });
+    };
+    
+    $('#import').addEventListener('change', open);
 
     const draw = imgSrc => {
       $('#preview').src = imgSrc;
       showPreview();
       $('#recognizedText').style.display = 'block'; // Show the text after the image is loaded
-      $('#recognizedText').textContent = '황윤찬, 인공지능 교육 전문가'; // 예시 텍스트, 필요에 따라 수정
     };
 
     const hidePreview = () => {
