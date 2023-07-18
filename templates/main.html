@@ -7,6 +7,7 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/starter-template.css" rel="stylesheet">
     <meta charset="UTF-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1.0">
     <title>HwaHoo</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
     <style>
@@ -55,21 +56,43 @@
         white-space: pre-line;
         }
 
+        .logo-container {
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            height: 100px;
+        }
+
+        .btn-container {
+            float: right;
+        }
+
+        .btn-container .btn {
+            margin-left: 10px;
+        }
+
         body {
-        min-height: 100vh;
-        background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
-        background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-        background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-        background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-        background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+            min-height: 100vh;
+            background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+            background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+            background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+            background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+            background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
         }
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
+    <div class="logo-container">
         <a href="/main">
-            <img class="logo" src="/static/images/main_logo.png" alt="Logo" style="width:150px;height: 100px;">
+            <img class="logo" src="/static/images/main_logo.png" alt="Logo">
         </a>
+        <div class="btn-container">
+            <button class="btn btn-default" style="color:#fff">로그인</button>
+            <button onclick="location.href='index.html'" class="btn btn-default" style="color:#fff">회원가입</button>
+        </div>
     </div>
     <div class="slider" style="background-color: white; border-radius: 12px;">
         <div class="slider-inner">
