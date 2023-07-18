@@ -49,7 +49,7 @@
   </style>
 </head>
 
-<body>
+<body class="d-flex align-items-center justify-content-center">
   <div class="container">
     <div class="input-form">
       <h4 class="mb-3 text-center">회원가입</h4>
@@ -83,7 +83,7 @@
           <input type="checkbox" class="custom-control-input" id="aggrement" required>
           <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
         </div>
-        <button class="btn btn-primary btn-block" type="submit" id="signUpBtn">가입 완료</button>
+        <button class="btn btn-primary btn-block" type="button" id="signUpBtn">가입 완료</button>
       </form>
     </div>
     <footer class="my-3 text-center text-small">
@@ -113,8 +113,16 @@
     faceBtn.addEventListener("click", () => {
       window.location.href = "/face";
     });
+
     signUpBtn.addEventListener("click", () => {
-      window.location.href = "/main";
+      const form = document.querySelector(".validation-form");
+
+      if (form.checkValidity()) {
+        alert("회원가입이 완료되었습니다.");
+        window.location.href = "/login";
+      } else {
+        alert("입력 정보를 확인해주세요.");
+      }
     });
 
     ocrBtn.addEventListener("click", () => {
