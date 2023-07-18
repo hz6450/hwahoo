@@ -73,6 +73,9 @@ def index():
 @app.route('/index2')
 def index2():
     return render_template('index2.html')
+@app.route('/index3')
+def index3():
+    return render_template('index3.html')
 
 @app.route('/login')
 def login():
