@@ -87,9 +87,10 @@ posts = [
 def main():
     return render_template('main.html',posts=posts)
 
-@app.route('/post', methods=['post.id'])
-def post():
-    return render_template('post.html')
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    post = next((p for p in posts if p['id'] == post_id), None)
+    return render_template('post.html', post=post)
 
 
 if __name__ == '__main__':
