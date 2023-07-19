@@ -120,6 +120,11 @@
             $('#confirm-btn').click(function() {
                 window.location.href = 'index2';  // Redirect to index2 page
             });
+            //뒤로가기 버튼 이벤트
+            const backButton = document.getElementById('backBtn');
+            backButton.addEventListener('click', () => {
+                window.location.href = 'index';
+            });
         });
     </script>
 </head>
@@ -159,12 +164,6 @@
 
         </script>
         {% endif %}
-        <script>
-            const backButton = document.getElementById('backBtn');
-            backButton.addEventListener('click', () => {
-                window.location.href = 'index';
-            });
-        </script>
     </div>
 </body>
 </html>
