@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -9,6 +10,18 @@
     <meta name='viewport' content="width=device-width, initial-scale=1.0">
     <title>HwaHoo</title>
     <style>
+        /* 이전 스타일들 */
+
+        /* 추가된 스타일들 */
+        .navbar-brand {
+            font-weight: bold;
+            color: #1d466c;
+        }
+        .navbar-nav .nav-link {
+            color: #1d466c;
+        }
+
+        /* 수정된 스타일들 */
         body {
             min-height: 100vh;
             background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
@@ -16,22 +29,109 @@
             background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
             background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
             background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
-            width:100%;
-            height:100%;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+        .navbar {
+            background-color: transparent; /* Make the navigation bar transparent */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff; /* Change the color of the brand text */
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff; /* Change the color of navigation links */
+            margin-right: 20px; /* Add some right margin between links */
+        }
+
+        .container {
+            max-width: 960px;
+            padding: 30px; /* Increase padding for better spacing */
+        }
+
+        .category {
+            background-color: #f8f9fa; /* Light gray background color */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1d466c;
+            margin-bottom: 30px; /* Increase margin bottom for better spacing */
+            font-size: 28px; /* Increase font size for better visibility */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #post {
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: #1d466c;
+            margin-bottom: 20px; /* Increase margin bottom for better spacing */
+            font-size: 24px; /* Increase font size for better visibility */
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: block;
+            border-radius: 5px; /* Add border radius for images */
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow for images */
+        }
+
+        p {
+            color: #444444;
+            line-height: 1.8; /* Increase line-height for better readability */
+            font-size: 16px; /* Increase font size for better visibility */
+        }
     </style>
 </head>
 <body>
-    <div class="col-md-6 text-center">
-        <div class="category">
-            <h2>포스트</h2>
-            <div id="post">
-                <h3>{{ post.title }}</h3>
-                <img src="{{ post.image }}">
-                <p>{{ post.content }}</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"> <!-- Add "fixed-top" class -->
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">HwaHoo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto"> <!-- Add "ml-auto" class to align navigation links to the right -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center"> <!-- Full width column -->
+                <div class="category">
+                    <h2>포스트</h2>
+                    <div id="post">
+                        <h3>{{ post.title }}</h3>
+                        <img src="{{ post.image }}">
+                        <p>{{ post.content }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

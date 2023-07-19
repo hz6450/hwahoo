@@ -80,7 +80,6 @@ def index3():
 @app.route('/login')
 def login():
     return render_template('login.html')
-
 posts = [
     {"id": 1, "title": "3D 모델링", "content": "3D 모델링 만들어 주실 분 구합니다.\n간단한 모양입니다.", "image": "/static/images/image1.jpg"},
     {"id": 2, "title": "웹 페이지 개발", "content": "기능은 다 만들었는데 이 기능과 사이트 분위기에 맞는\n디자인으로 만들어 주실 분 구합니다.", "image": "/static/images/image2.jpg"},
@@ -91,7 +90,11 @@ posts = [
 
 @app.route('/main')
 def main():
-    return render_template('main.html',posts=posts)
+    images = [
+        {"image": "/static/images/banner.png"},
+        {"image": "/static/images/banner2.jpg"},
+    ]
+    return render_template('main.html',posts=posts,images=images)
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):

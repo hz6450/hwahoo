@@ -11,60 +11,22 @@
     <title>HwaHoo</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
     <style>
-        .slider {
-            width: 80%;
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to top right, #c9eaff 0%, #ebf8ff 100%);
+        }
+
+        .bulletin-board {
+            max-width: 1200px;
             margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .slider-inner {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .slide {
-            flex: 0 0 100%;
-        }
-
-        .custom-dots {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .custom-dots button {
-            margin: 0 5px;
-            padding: 0;
-            width: 10px;
-            height: 10px;
-            background-color: #fff;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .custom-dots button.active {
-            background-color: #000;
-        }
-
-        .slick-prev,
-        .slick-next {
-            display: none !important;
-        }
-        .slide p {
-        white-space: pre-line;
+            padding: 20px;
         }
 
         .logo-container {
-        display: flex;
-        justify-content: center; 
-        align-items: center;
-        }
-
-        .btn-container {
             display: flex;
+            justify-content: center; 
             align-items: center;
-            margin-left: auto;
+            margin-bottom: 20px;
         }
 
         .logo {
@@ -72,87 +34,132 @@
             height: 80px;
         }
 
+        .btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
         .btn-container .btn {
             margin-left: 10px;
         }
 
-        body {
-            min-height: 100vh;
-            background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
-            background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-            background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-            background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-            background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+        .slider {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .slider-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            animation: slide 20s infinite; /* Auto-rotate the banner */
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            cursor: pointer;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        .slide h3 {
+            margin: 0;
+        }
+
+        .slide p {
+            white-space: pre-line;
+        }
+
+        .custom-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            display: none; /* Hide the dots since we have auto-rotation */
+        }
+
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         .category {
-        display: flex;
-        flex-direction: column;
-        align-items: center;         
+            width: 48%;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: white;
+            margin-bottom: 20px;
         }
 
-        .top-row {
-        display: flex;
-        justify-content: center;
+        .top-row, .bottom-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
-        .bottom-row {
-        display: flex;
-        justify-content: center;
+        .category a {
+            margin: 10px;
         }
-        
 
+        .category img {
+            height: 150px;
+            width: 150px;
+        }
     </style>
 </head>
 <body>
-    <div class="logo-container">
-        <a href="/main">
-            <img class="logo" src="/static/images/main_logo.png" alt="Logo">
-        </a>
-        <div class="btn-container">
+    <div class="bulletin-board">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container d-flex justify-content-between align-items-center">
+          <div class="logo-container">
+            <a href="/main">
+              <img class="logo" src="/static/images/main_logo.png" alt="Logo">
+            </a>
+          </div>
+          <div class="btn-container ml-auto">
             <button onclick="location.href='login'" class="btn btn-default" style="color:#fff">로그인</button>
             <button onclick="location.href='index'" class="btn btn-default" style="color:#fff">회원가입</button>
+          </div>
         </div>
-    </div>
-    <div class="slider" style="background-color: white; border-radius: 12px;">
-        <div class="slider-inner">
-            {% for post in posts[:2] %}
-            <div class="slide" onclick="goToPost('{{ post.id }}')">
-                <div class="row" style="text-align: center;">
-                    <div class="col-md-6">
-                        {% if post.image %}
-                        <img src="{{ post.image }}" style="width: 150x; height: 150px;">
-                        {% endif %}
-                    </div>
-                    <div class="col-md-6">
-                        <h3>{{ post.title }}</h3>
-                        <p>{{ post.content }}</p>
+    </nav>
+
+        <div class="slider">
+            <div class="slider-inner">
+                {% for image in images %}
+                <div class="slide">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-md-6">
+                            {% if image.image %}
+                            <img src="{{ image.image }}">
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-        <div class="custom-dots" style="margin: 8px;">
-            {% for i in range(posts[:2]|length) %}
-            {% if loop.index0 < 2 %}
-            <button class="dot-button" data-slide-index="{{ loop.index0 }}"></button>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
 
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="category-container">
+            <div class="category">
                 <h2>최신 글</h2>
-                <div class="posts">
+                <div class="posts-list">
                     {% for post in posts %} 
                     <div class="card mb-3" onclick="goToPost('{{ post.id }}')">
                         <div class="row g-0">
-                            <div class="col-md-4" >
+                            <div class="col-md-4">
                                 {% if post.image %}
-                                <img src="{{ post.image }}" style="width: 200px; height: 200px;">
+                                <div class="post-image">
+                                    <img src="{{ post.image }}" style="max-width: 200px; max-height: 200px;">
+                                </div>
                                 {% endif %}
                             </div>
                             <div class="col-md-8">
@@ -168,65 +175,50 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="category">
-                    <h2>카테고리</h2>
-                    <div class="top-row">
-                        <a href="/art">
-                            <img src="/static/images/art.png" alt="Image 1" style="height: 150px; width: 150px; margin:10px">
-                        </a>
-                        <a href="/book">
-                            <img src="/static/images/book.jpg" alt="Image 2" style="height: 150px; width: 150px;margin:10px">
-                        </a>
-                        <a href="/cook">
-                            <img src="/static/images/cook.png" alt="Image 3" style="height: 150px; width: 150px;margin:10px">
-                        </a>
-                    </div>
-                    <div class="bottom-row">
-                        <a href="/computer">
-                            <img src="/static/images/computer.png" alt="Image 4" style="height: 150px; width: 150px;margin:10px">
-                        </a>
-                        <a href="/music">
-                            <img src="/static/images/music.png" alt="Image 5" style="height: 150px; width: 150px;margin:10px">
-                        </a>
-                    </div>
+
+            <div class="category">
+                <h2>카테고리</h2>
+                <div class="top-row">
+                    <a href="/art">
+                        <img src="/static/images/art.png" alt="Image 1">
+                    </a>
+                    <a href="/book">
+                        <img src="/static/images/book.jpg" alt="Image 2">
+                    </a>
+                    <a href="/cook">
+                        <img src="/static/images/cook.png" alt="Image 3">
+                    </a>
+                </div>
+                <div class="bottom-row">
+                    <a href="/computer">
+                        <img src="/static/images/computer.png" alt="Image 4">
+                    </a>
+                    <a href="/music">
+                        <img src="/static/images/music.png" alt="Image 5">
+                    </a>
                 </div>
             </div>
-            
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
-        function goToPost(postId) {
-        window.location.href = "/post/" + postId;
-        }
-
         $(document).ready(function() {
-            var slider = $('.slider-inner');
-            var dots = $('.custom-dots button');
-
-            slider.slick({
+            $('.slider-inner').slick({
                 autoplay: true,
-                autoplaySpeed: 2000,
-                dots: false,
-                infinite: true,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                draggable: false,
-                swipe: false
-            });
-
-            dots.click(function() {
-                var index = $(this).data('slide-index');
-                slider.slick('slickGoTo', index);
-            });
-
-            slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-                dots.removeClass('active');
-                dots.eq(nextSlide).addClass('active');
+                autoplaySpeed: 2000, // 배너가 넘어가는 시간 (2초)
+                dots: false, // 점 표시 숨김
+                arrows: false, // 화살표 숨김
+                infinite: true, // 무한 반복
+                slidesToShow: 1, // 동시에 보여질 배너 수
+                slidesToScroll: 1 // 한 번에 넘어가는 배너 수
             });
         });
+
+        function goToPost(postId) {
+            window.location.href = "/post/" + postId;
+        }
     </script>
 
     <!-- Bootstrap core JavaScript
