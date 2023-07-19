@@ -2,6 +2,100 @@
 <html>
 <head>
     <title>나이 분류</title>
+    <style>
+        /*헤더 스타일 */
+        header {
+          background-color: #333;
+          padding: 10px;
+          color: #FFF;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 40px;
+          border-radius: 30px;
+        }
+
+        /* 뒤로 가기 버튼 스타일 */
+        #backBtn {
+            background-color: #555;
+            border: none;
+            color: #FFF;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin: 10px;
+        }
+        
+        #upload-form {
+            text-align: center;
+            margin-bottom: 20px;
+            margin: 10px;
+        }
+        
+        #capture-btn {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        #capture-btn:hover {
+            background-color: #45a049;
+        }
+        
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .error {
+            color: red;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #45a049;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -14,38 +108,63 @@
                     data: { capture: true },
                     success: function(response) {
                         $('#result').html('<h2>결과:</h2><p>' + response + '</p>');  // 나이 예측 결과만 표시
+                        $('#action-buttons').show();
                     },
                     error: function(error) {
-                        $('#result').html('<p>오류: ' + error.responseText + '</p>');
+                        $('#result').html('<p class="error">오류: ' + error.responseText + '</p>');
                     }
                 });
+            });
+            
+            // 확인 버튼 클릭 이벤트
+            $('#confirm-btn').click(function() {
+                window.location.href = 'index2';  // Redirect to index2 page
             });
         });
     </script>
 </head>
 <body>
-    <h1>나이 분류</h1>
-    <div id="upload-form">
-        <form action="/" method="POST" enctype="multipart/form-data">
-            <input type="file" name="image" accept="image/*">
-            <input type="submit" value="업로드">
-        </form>
+    <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <header>
+            <h1 style="margin-bottom: 10px;" style="color: white">나이 분류</h1>
+            <button id="backBtn">Back</button>
+        </header>
+        <div id="upload-form">
+            <form action="/face" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" style="margin-bottom: 10px;">
+                <br>
+                <input type="submit" value="업로드" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: #fff; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">
+            </form>
+        </div>
+
+        <button id="capture-btn">캡처</button>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div id="result"></div>  <!-- 나이 예측 결과를 동적으로 표시할 빈 div -->
+
+        <div id="action-buttons" class="button-container" style="display: none;">
+            <button id="confirm-btn" class="action-button">확인</button>
+        </div>
+
+        {% if age %}
+
+        <script>
+            $(document).ready(function() {
+                $('#result').html('<h2>결과:</h2><p>{{ age }}</p>');  // 나이 예측 결과 표시
+                $('#action-buttons').show();
+            });
+
+        </script>
+        {% endif %}
+        <script>
+            const backButton = document.getElementById('backBtn');
+            backButton.addEventListener('click', () => {
+                window.location.href = 'index';
+            });
+        </script>
     </div>
-
-    <button id="capture-btn">캡처</button>
-
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
-
-    <div id="result"></div>  <!-- 나이 예측 결과를 동적으로 표시할 빈 div -->
-
-    {% if age %}
-    <script>
-        $(document).ready(function() {
-            $('#result').html('<h2>결과:</h2><p>{{ age }}</p>');  // 나이 예측 결과 표시
-        });
-    </script>
-    {% endif %}
 </body>
 </html>
